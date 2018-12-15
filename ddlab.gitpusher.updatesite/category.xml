@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/ddlab.gitpusher.feature_1.0.0.jar" id="ddlab.gitpusher.feature" version="1.0.0">
+      <category name="DDLAB Tornado"/>
+   </feature>
+   <bundle id="ddlab.gitpusher.plugin" version="1.0.0">
+      <category name="DDLAB Tornado"/>
+   </bundle>
+   <category-def name="DDLAB Tornado" label="DDLAB Tornado">
+      <description>
+         An Artifact from Tornado Project by DDLAB Inc.
+      </description>
+   </category-def>
+</site>
