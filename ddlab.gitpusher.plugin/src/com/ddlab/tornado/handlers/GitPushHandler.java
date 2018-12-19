@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.tornado.handlers;
 
 import java.io.File;
@@ -18,8 +21,16 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.ddlab.tornado.dialog.GitPushDialog;
 
+/**
+ * The Class GitPushHandler.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitPushHandler extends AbstractHandler {
 
+  /* (non-Javadoc)
+   * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+   */
   @Override
   public Object execute(ExecutionEvent event) throws ExecutionException {
     IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
@@ -51,6 +62,13 @@ public class GitPushHandler extends AbstractHandler {
     return null;
   }
 
+  /**
+   * Execute 11.
+   *
+   * @param event the event
+   * @return the object
+   * @throws ExecutionException the execution exception
+   */
   public Object execute11(ExecutionEvent event) throws ExecutionException {
 
     IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);

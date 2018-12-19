@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.generator.readme;
 
 import com.ddlab.generator.IReadMeGen;
@@ -10,7 +13,16 @@ import java.text.MessageFormat;
 
 import static com.ddlab.generator.GeneratorConstants.README_MD_TEMPLATE;
 
+/**
+ * The Class ReadMeGenerator.
+ *
+ * @author Debadatta Mishra
+ */
 public class ReadMeGenerator implements IReadMeGen {
+
+  /* (non-Javadoc)
+   * @see com.ddlab.generator.IReadMeGen#generateReadMeMdContents(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public String generateReadMeMdContents(
       String projectName, String description, String contributorName) {

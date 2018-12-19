@@ -1,20 +1,31 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.github.core;
+
+import static com.ddlab.gitpusher.util.CommonUtil.HOME_GIT_PATH;
+
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
 
 import com.ddlab.gitpusher.core.IGitHandler;
 import com.ddlab.gitpusher.core.NoGitHandler;
 import com.ddlab.gitpusher.exception.GenericGitPushException;
-import org.apache.commons.io.FileUtils;
-import static com.ddlab.gitpusher.util.CommonUtil.*;
 
-import java.io.File;
-
+/**
+ * The Class NoGitHubHandlerImpl.
+ *
+ * @author Debadatta Mishra
+ */
 public class NoGitHubHandlerImpl implements NoGitHandler {
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.NoGitHandler#handle(java.io.File, com.ddlab.gitpusher.core.IGitHandler)
+   */
   @Override
   public void handle(File projectDir, IGitHandler gitHandler) throws Exception {
-    String homeGitPath = HOME_GIT_PATH;
     String repoName = projectDir.getName();
-    File homeGitDirPath = new File(homeGitPath);
     boolean repoExistsFlag = gitHandler.repoExists(repoName);
     if (repoExistsFlag) {
       System.out.println(
@@ -29,6 +40,14 @@ public class NoGitHubHandlerImpl implements NoGitHandler {
     }
   }
 
+  /**
+   * Creates the clone copy.
+   *
+   * @param repoName the repo name
+   * @param projectDir the project dir
+   * @param gitHandler the git handler
+   * @throws Exception the exception
+   */
   private void createCloneCopy(String repoName, File projectDir, IGitHandler gitHandler)
       throws Exception {
     // Create a Hosted Repo

@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.generator.gitignore;
 
 import com.ddlab.generator.IGitIgnoreGen;
@@ -9,7 +12,16 @@ import java.nio.charset.Charset;
 
 import static com.ddlab.generator.GeneratorConstants.GIT_IGNORE_TEMPLATE;
 
+/**
+ * The Class GitIgnoreGenerator.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitIgnoreGenerator implements IGitIgnoreGen {
+
+  /* (non-Javadoc)
+   * @see com.ddlab.generator.IGitIgnoreGen#generateGitIgnoreContents()
+   */
   @Override
   public String generateGitIgnoreContents() {
     String gitIgnoreContents = "";

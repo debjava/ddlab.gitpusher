@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.github.core;
 
 import java.io.IOException;
@@ -9,8 +12,16 @@ import com.ddlab.gitpusher.core.IGistResponseParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * The Class GitHubGistParserImpl.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitHubGistParserImpl implements IGistResponseParser<String, String[]> {
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGistResponseParser#parse(java.lang.Object)
+   */
   @Override
   public String[] parse(String jsonResponse) throws Exception {
     List<String> gistList = new ArrayList<String>();

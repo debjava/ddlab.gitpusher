@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.tornado.handlers;
 
 import java.io.File;
@@ -16,8 +19,16 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.ddlab.tornado.dialog.CreateGistSnippetDialog;
 
+/**
+ * The Class CreateGistHandler.
+ *
+ * @author Debadatta Mishra
+ */
 public class CreateGistHandler extends AbstractHandler {
 
+  /* (non-Javadoc)
+   * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+   */
   @Override
   public Object execute(ExecutionEvent event) throws ExecutionException {
     IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);

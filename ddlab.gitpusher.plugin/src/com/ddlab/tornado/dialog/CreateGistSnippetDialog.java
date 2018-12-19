@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.tornado.dialog;
 
 import static com.ddlab.tornado.common.CommonConstants.ACT_TYPE_LBL_TXT;
@@ -61,21 +64,48 @@ import com.ddlab.tornado.common.CommonUtil;
 import com.ddlab.tornado.common.ImageUtil;
 import com.ddlab.tornado.threads.SnippetLoaderThread;
 
+/**
+ * The Class CreateGistSnippetDialog.
+ *
+ * @author Debadatta Mishra
+ */
 public class CreateGistSnippetDialog extends TitleAreaDialog {
 
+  /** The git act combo. */
   private Combo gitActCombo = null;
+  
+  /** The user name text. */
   private Text userNameText = null;
+  
+  /** The password text. */
   private Text passwordText = null;
+  
+  /** The show gist btn. */
   private Button showGistBtn = null;
+  
+  /** The my gist combo. */
   private Combo myGistCombo = null;
+  
+  /** The gist desc txt. */
   private Text gistDescTxt = null;
+  
+  /** The selected file. */
   private File selectedFile;
 
+  /**
+   * Instantiates a new creates the gist snippet dialog.
+   *
+   * @param parentShell the parent shell
+   * @param selectedFile the selected file
+   */
   public CreateGistSnippetDialog(Shell parentShell, File selectedFile) {
     super(parentShell);
     this.selectedFile = selectedFile;
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#create()
+   */
   @Override
   public void create() {
     super.create();
@@ -85,6 +115,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     setTitleImage(ImageUtil.getImage(SHELL_IMG_64));
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+   */
   @Override
   protected Control createDialogArea(Composite parent) {
     Composite dialogComposite = (Composite) super.createDialogArea(parent);
@@ -102,6 +135,11 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     return dialogComposite;
   }
 
+  /**
+   * Creates the git account combo.
+   *
+   * @param container the container
+   */
   private void createGitAccountCombo(Composite container) {
     Label gitActLabel = new Label(container, SWT.NONE);
     gitActLabel.setText(ACT_TYPE_LBL_TXT);
@@ -115,6 +153,11 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     CommonUtil.setLayoutData(gitActCombo);
   }
 
+  /**
+   * Creates the user name.
+   *
+   * @param container the container
+   */
   private void createUserName(Composite container) {
     Label userNameLabel = new Label(container, SWT.NONE);
     userNameLabel.setText(USER_NAME_TEXT);
@@ -129,6 +172,11 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     CommonUtil.setLayoutData(userNameText);
   }
 
+  /**
+   * Creates the password.
+   *
+   * @param container the container
+   */
   private void createPassword(Composite container) {
     Label passwordLabel = new Label(container, SWT.NONE);
     passwordLabel.setText(PWD_LBL_TXT);
@@ -141,6 +189,11 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     CommonUtil.setLayoutData(passwordText);
   }
 
+  /**
+   * Creates the show gist.
+   *
+   * @param container the container
+   */
   private void createShowGist(Composite container) {
     showGistBtn = new Button(container, SWT.PUSH);
     showGistBtn.setText(GIST_BTN_TXT);
@@ -155,6 +208,11 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     addRepoBtnListener();
   }
 
+  /**
+   * Creates the gist description.
+   *
+   * @param container the container
+   */
   private void createGistDescription(Composite container) {
     Label gistDescLbl = new Label(container, SWT.NONE);
     gistDescLbl.setText(GIST_LBL_TXT);
@@ -176,25 +234,10 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     CommonUtil.setRightSideControlDecorator(gistDescLbl, GIST_LBL_INFO_TXT);
   }
 
+  /**
+   * Adds the gist text listener.
+   */
   private void addGistTextListener() {
-    //    gistDescTxt.addVerifyListener(
-    //        new VerifyListener() {
-    //
-    //          @Override
-    //          public void verifyText(VerifyEvent e) {
-    //        	  if (gistDescTxt.getText().length() > 200) {
-    //                  setMessage(
-    //                      "Description text cannot be more than 200 characters",
-    // IMessageProvider.ERROR);
-    //                  System.out.println("Now key Code : "+e.keyCode );
-    //                  if(e.keyCode != 127 || e.keyCode != 8) e.doit = false;
-    //                } else {
-    //                  setMessage("");
-    //                  e.doit = true;
-    //                }
-    //          }
-    //        });
-
     gistDescTxt.addKeyListener(
         new KeyAdapter() {
           @Override
@@ -204,6 +247,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Adds the repo btn listener.
+   */
   private void addRepoBtnListener() {
     showGistBtn.addSelectionListener(
         new SelectionAdapter() {
@@ -214,6 +260,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Adds the user name text listener.
+   */
   private void addUserNameTextListener() {
     userNameText.addKeyListener(
         new KeyAdapter() {
@@ -224,6 +273,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Adds the pwd text listener.
+   */
   private void addPwdTextListener() {
     passwordText.addKeyListener(
         new KeyAdapter() {
@@ -234,6 +286,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Populate repo combo.
+   */
   private void populateRepoCombo() {
     if (!isAccountValid()) return;
     myGistCombo.removeAll();
@@ -247,7 +302,6 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
       new ProgressMonitorDialog(new Shell()).run(true, true, op);
       if (gistList.size() != 0) {
         setMessage("");
-        System.out.println("====>" + gistList);
         String[] repos = gistList.toArray(new String[0]);
         myGistCombo.setItems(repos);
         myGistCombo.select(0);
@@ -266,6 +320,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+   */
   @Override
   protected void okPressed() {
     if (isAccountValid() && isDescValid()) {
@@ -280,6 +337,12 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     }
   }
 
+  /**
+   * Execute in background.
+   *
+   * @param gitPusher the git pusher
+   * @param snippetDesc the snippet desc
+   */
   private void executeInBackground(IGitPusher gitPusher, String snippetDesc) {
     String gitWebType = GIT_ACCOUNTS[gitActCombo.getSelectionIndex()];
     String actualGit = gitWebType.equalsIgnoreCase("gitHub") ? "GitHub" : "BitBucket";
@@ -325,16 +388,27 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     PlatformUI.getWorkbench().getProgressService().showInDialog(getShell(), job);
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
+   */
   @Override
   protected void cancelPressed() {
     super.cancelPressed();
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#isResizable()
+   */
   @Override
   protected boolean isResizable() {
     return true;
   }
 
+  /**
+   * Checks if is account valid.
+   *
+   * @return true, if is account valid
+   */
   private boolean isAccountValid() {
     boolean isValidFlag = false;
     if (userNameText.getText().isEmpty()) setMessage(UNAME_NOT_EMPTY_TXT, IMessageProvider.ERROR);
@@ -347,6 +421,11 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     return isValidFlag;
   }
 
+  /**
+   * Checks if is desc valid.
+   *
+   * @return true, if is desc valid
+   */
   private boolean isDescValid() {
     boolean isValidFlag = false;
     if (gistDescTxt.getText().trim().isEmpty())
@@ -361,6 +440,9 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     return isValidFlag;
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.TrayDialog#isHelpAvailable()
+   */
   @Override
   public boolean isHelpAvailable() {
     return false;

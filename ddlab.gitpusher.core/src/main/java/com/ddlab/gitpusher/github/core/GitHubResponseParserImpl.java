@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.github.core;
 
 import com.ddlab.gitpusher.core.IErrorResponseParser;
@@ -10,8 +13,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+/**
+ * The Class GitHubResponseParserImpl.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitHubResponseParserImpl implements IResponseParser<String, GitHubRepo> {
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getAllRepos(java.lang.Object)
+   */
   @Override
   public GitHubRepo getAllRepos(String jsonResponse) throws GenericGitPushException {
     GitHubRepo gitRepo = new GitHubRepo();
@@ -28,6 +39,9 @@ public class GitHubResponseParserImpl implements IResponseParser<String, GitHubR
     return gitRepo;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getUser(java.lang.Object)
+   */
   @Override
   public GitHubRepo getUser(String jsonResponse) throws GenericGitPushException {
     GitHubRepo gitRepo = new GitHubRepo();
@@ -42,6 +56,9 @@ public class GitHubResponseParserImpl implements IResponseParser<String, GitHubR
     return gitRepo;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getNewlyCreatedHostedRepo(java.lang.Object, com.ddlab.gitpusher.core.IErrorResponseParser)
+   */
   @Override
   public GitHubRepo getNewlyCreatedHostedRepo(
       String jsonResponse, IErrorResponseParser<String, String> errorParser)
@@ -62,6 +79,9 @@ public class GitHubResponseParserImpl implements IResponseParser<String, GitHubR
     return gitRepo;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getAllGistSnippets(java.lang.Object)
+   */
   @Override
   public GitHubRepo getAllGistSnippets(String s) throws GenericGitPushException {
     return null;

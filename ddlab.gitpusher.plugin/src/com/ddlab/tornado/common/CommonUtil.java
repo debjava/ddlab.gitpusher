@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.tornado.common;
 
 import java.io.File;
@@ -19,23 +22,46 @@ import com.ddlab.generator.IReadMeGen;
 import com.ddlab.generator.gitignore.GitIgnoreGenerator;
 import com.ddlab.generator.readme.ReadMeGenerator;
 
+/**
+ * The Class CommonUtil.
+ *
+ * @author Debadatta Mishra
+ */
 public class CommonUtil {
 
   // public static final Font BOLD_FONT =
   // JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
 
+  /**
+   * Sets the proposal decorator.
+   *
+   * @param control the control
+   * @param message the message
+   */
   public static void setProposalDecorator(Control control, String message) {
     ControlDecoration decorator = getDecorator(control, message);
     decorator.setImage(ImageUtil.PROPOSAL_IMAGE);
     decorator.show();
   }
 
+  /**
+   * Sets the info decorator.
+   *
+   * @param control the control
+   * @param message the message
+   */
   public static void setInfoDecorator(Control control, String message) {
     ControlDecoration decorator = getDecorator(control, message);
     decorator.setImage(ImageUtil.INFO_IMAGE);
     decorator.show();
   }
 
+  /**
+   * Sets the required decorator.
+   *
+   * @param control the control
+   * @param message the message
+   */
   public static void setRequiredDecorator(Control control, String message) {
     ControlDecoration decorator = getDecorator(control, message);
     //    decorator.setImage(ImageUtil.ERROR_IMAGE);
@@ -43,20 +69,38 @@ public class CommonUtil {
     decorator.show();
   }
 
+  /**
+   * Gets the decorator.
+   *
+   * @param control the control
+   * @param message the message
+   * @return the decorator
+   */
   public static ControlDecoration getDecorator(Control control, String message) {
     ControlDecoration decorator = new ControlDecoration(control, SWT.TOP);
     decorator.setDescriptionText(message);
     return decorator;
   }
 
+  /**
+   * Sets the layout data.
+   *
+   * @param control the new layout data
+   */
   public static void setLayoutData(Control control) {
     GridData gData = new GridData();
-    gData.heightHint = 20;
+    gData.heightHint = 29;
     gData.grabExcessHorizontalSpace = true;
     gData.horizontalAlignment = GridData.FILL;
     control.setLayoutData(gData);
   }
 
+  /**
+   * Sets the right side control decorator.
+   *
+   * @param control the control
+   * @param message the message
+   */
   public static void setRightSideControlDecorator(Control control, String message) {
     ControlDecoration decorator = new ControlDecoration(control, SWT.CENTER | SWT.RIGHT);
     decorator.setDescriptionText(message);
@@ -65,6 +109,11 @@ public class CommonUtil {
     decorator.show();
   }
 
+  /**
+   * Show success.
+   *
+   * @param message the message
+   */
   public static void showSuccess(String message) {
     Display.getDefault()
         .syncExec(
@@ -73,6 +122,11 @@ public class CommonUtil {
             });
   }
 
+  /**
+   * Show failure.
+   *
+   * @param errMsg the err msg
+   */
   public static void showFailure(String errMsg) {
     Display.getDefault()
         .syncExec(
@@ -81,6 +135,12 @@ public class CommonUtil {
             });
   }
 
+  /**
+   * Generate read me file.
+   *
+   * @param selectedFile the selected file
+   * @param description the description
+   */
   public static void generateReadMeFile(File selectedFile, String description) {
     IReadMeGen readMeGen = new ReadMeGenerator();
     String projectName = selectedFile.getName();
@@ -96,6 +156,11 @@ public class CommonUtil {
     }
   }
 
+  /**
+   * Generate git ignore file.
+   *
+   * @param selectedFile the selected file
+   */
   public static void generateGitIgnoreFile(File selectedFile) {
     IGitIgnoreGen gitIgnoreGenerator = new GitIgnoreGenerator();
     String gitIgnoreContents = gitIgnoreGenerator.generateGitIgnoreContents();

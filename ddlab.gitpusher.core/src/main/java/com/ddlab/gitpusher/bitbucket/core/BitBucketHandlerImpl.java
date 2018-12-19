@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.bitbucket.core;
 
 import com.ddlab.gitpusher.core.*;
@@ -29,21 +32,33 @@ import java.util.Set;
 
 import static com.ddlab.gitpusher.util.CommonConstants.*;
 
+/**
+ * The Class BitBucketHandlerImpl.
+ *
+ * @author Debadatta Mishra
+ */
 public class BitBucketHandlerImpl implements IGitHandler {
+
+  /** The user account. */
   private UserAccount userAccount;
 
+  /**
+   * Instantiates a new bit bucket handler impl.
+   *
+   * @param userAccount the user account
+   */
   public BitBucketHandlerImpl(UserAccount userAccount) {
     this.userAccount = userAccount;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getUserName()
+   */
   @Override
   public String getUserName() throws Exception {
     String userName = null;
     String uri = BITBUCKET_API_URI + BITBUCKET_USER_API_URI;
-    HttpGet httpGet = new HttpGet(uri);
-    String encodedUser =
-        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-    httpGet.setHeader("Authorization", "Basic " + encodedUser);
+    HttpGet httpGet = HTTPUtil.getHttpGet(uri, userAccount);
     try {
       GitResponse gitResponse = HTTPUtil.getHttpGetOrPostResponse(httpGet);
       if (gitResponse.getStatusCode().equals("401"))
@@ -56,6 +71,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     return userName;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getAllRepositories()
+   */
   @Override
   public String[] getAllRepositories() throws Exception {
     String[] repoNames = null;
@@ -63,10 +81,7 @@ public class BitBucketHandlerImpl implements IGitHandler {
     String userName = getUserName();
     MessageFormat formatter = new MessageFormat(uri);
     uri = formatter.format(new String[] {userName});
-    HttpGet httpGet = new HttpGet(uri);
-    String encodedUser =
-        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-    httpGet.setHeader("Authorization", "Basic " + encodedUser);
+    HttpGet httpGet = HTTPUtil.getHttpGet(uri, userAccount);
     try {
       GitResponse gitResponse = HTTPUtil.getHttpGetOrPostResponse(httpGet);
       if (gitResponse.getStatusCode().equals("401"))
@@ -79,6 +94,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     return repoNames;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#repoExists(java.lang.String)
+   */
   @Override
   public boolean repoExists(String repoName) throws Exception {
     boolean existsFlag = false;
@@ -86,10 +104,7 @@ public class BitBucketHandlerImpl implements IGitHandler {
     MessageFormat formatter = new MessageFormat(uri);
     String loginUser = getUserName();
     uri = formatter.format(new String[] {loginUser, repoName});
-    HttpGet httpGet = new HttpGet(uri);
-    String encodedUser =
-        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-    httpGet.setHeader("Authorization", "Basic " + encodedUser);
+    HttpGet httpGet = HTTPUtil.getHttpGet(uri, userAccount);
     try {
       GitResponse gitResponse = HTTPUtil.getHttpGetOrPostResponse(httpGet);
       if (gitResponse.getStatusCode().equals("401"))
@@ -101,6 +116,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     return existsFlag;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getUrlFromLocalRepsitory(java.io.File)
+   */
   @Override
   public String getUrlFromLocalRepsitory(File gitDirPath) throws Exception {
     String existingRepoUrl = null;
@@ -116,6 +134,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     return existingRepoUrl;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#isGitDirAvailable(java.io.File)
+   */
   @Override
   public boolean isGitDirAvailable(File gitDirPath) throws Exception {
     boolean isAvailable = false;
@@ -130,6 +151,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     return isAvailable;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#createHostedRepo(java.lang.String)
+   */
   @Override
   public void createHostedRepo(String repoName) throws Exception {
     String loginUser = getUserName();
@@ -137,10 +161,7 @@ public class BitBucketHandlerImpl implements IGitHandler {
     String uri = BITBUCKET_API_URI + BITBUCKET_CREATE_API_URI;
     MessageFormat formatter = new MessageFormat(uri);
     uri = formatter.format(new String[] {loginUser, repoName});
-    HttpPost httpPost = new HttpPost(uri);
-    String encodedUser =
-        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-    httpPost.setHeader("Authorization", "Basic " + encodedUser);
+    HttpPost httpPost = HTTPUtil.getHttpPost(uri, userAccount);
     StringEntity jsonBodyRequest = new StringEntity(jsonRepo);
     httpPost.setEntity(jsonBodyRequest);
     httpPost.setHeader("Content-type", "application/json");
@@ -155,6 +176,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#clone(java.lang.String, java.io.File)
+   */
   @Override
   public void clone(String repoName, File dirPath) throws Exception {
     String uri = BITBUCKET_CLONE_API_URI;
@@ -179,6 +203,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#update(java.io.File, java.lang.String)
+   */
   @Override
   public void update(File cloneDirPath, String message) throws Exception {
     Git git = null;
@@ -212,11 +239,6 @@ public class BitBucketHandlerImpl implements IGitHandler {
       PushResult pushResult = resultIterable.iterator().next();
       for (final RemoteRefUpdate rru : pushResult.getRemoteUpdates()) {
         RemoteRefUpdate.Status status = rru.getStatus();
-        //        if (status != RemoteRefUpdate.Status.OK && status !=
-        // RemoteRefUpdate.Status.UP_TO_DATE) {
-        //          // Do something
-        //          System.out.println("Something is wrong ....");
-        //        }
         statusSet.add(status);
       }
       if (statusSet.contains(RemoteRefUpdate.Status.OK)) {
@@ -224,26 +246,33 @@ public class BitBucketHandlerImpl implements IGitHandler {
       }
     } catch (IOException | GitAPIException e) {
       revertChanges(git, revisionCommit);
-      String reasonMsg = "\nIt may happen if your repository belongs to GitHub "
-          + "and you are trying to push/update the code in BitBucket";
-      throw new GenericGitPushException(e.getMessage()+reasonMsg);
+      String reasonMsg =
+          "\nIt may happen if your repository belongs to GitHub "
+              + "and you are trying to push/update the code in BitBucket";
+      throw new GenericGitPushException(e.getMessage() + reasonMsg);
     } finally {
       if (git != null) git.close();
     }
   }
 
+  /**
+   * Revert changes.
+   *
+   * @param git the git
+   * @param revisionCommit the revision commit
+   */
   private void revertChanges(Git git, RevCommit revisionCommit) {
     System.out.println("Going to revert the changes");
     try {
       git.revert().call();
-      //      git.revert().include(revisionCommit).call();
-      //      git.reset().setMode(ResetCommand.ResetType.HARD).call();
-
     } catch (GitAPIException e) {
       e.printStackTrace();
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getGists()
+   */
   @Override
   public String[] getGists() throws Exception {
     String[] gistSnippets = null;
@@ -253,10 +282,7 @@ public class BitBucketHandlerImpl implements IGitHandler {
     uri = formatter.format(new String[] {loginUser});
     System.out.println("Gist URI : " + uri);
 
-    HttpGet httpGet = new HttpGet(uri);
-    String encodedUser =
-        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-    httpGet.setHeader("Authorization", "Basic " + encodedUser);
+    HttpGet httpGet = HTTPUtil.getHttpGet(uri, userAccount);
     try {
       GitResponse gitResponse = HTTPUtil.getHttpGetOrPostResponse(httpGet);
       if (gitResponse.getStatusCode().equals("401"))
@@ -269,6 +295,9 @@ public class BitBucketHandlerImpl implements IGitHandler {
     return gistSnippets;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#createGist(java.io.File, java.lang.String)
+   */
   @Override
   public void createGist(File file, String description) throws Exception {
     String uri = BITBUCKET_API_URI + BITBUCKET_GET_OR_CREATE_GIST_API_URI;
@@ -276,10 +305,7 @@ public class BitBucketHandlerImpl implements IGitHandler {
     MessageFormat formatter = new MessageFormat(uri);
     uri = formatter.format(new String[] {loginUser});
 
-    HttpPost httpPost = new HttpPost(uri);
-    String encodedUser =
-        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-    httpPost.setHeader("Authorization", "Basic " + encodedUser);
+    HttpPost httpPost = HTTPUtil.getHttpPost(uri, userAccount);
 
     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
     builder.addBinaryBody("file", file);
@@ -297,18 +323,42 @@ public class BitBucketHandlerImpl implements IGitHandler {
     }
   }
 
+  /**
+   * The Class BitbucketHostedRepo.
+   *
+   * @author Debadatta Mishra
+   */
   private static class BitbucketHostedRepo {
+
+    /** The scm. */
     @JsonProperty("scm")
     private String scm = "git";
 
+    /**
+     * Gets the scm.
+     *
+     * @return the scm
+     */
+    @SuppressWarnings("unused")
     public String getScm() {
       return scm;
     }
 
+    /**
+     * Sets the scm.
+     *
+     * @param scm the new scm
+     */
+    @SuppressWarnings("unused")
     public void setScm(String scm) {
       this.scm = scm;
     }
 
+    /**
+     * To json.
+     *
+     * @return the string
+     */
     public String toJson() {
       ObjectMapper mapper = new ObjectMapper();
       String toJson = null;

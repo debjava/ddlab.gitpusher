@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.github.core;
 
 import com.ddlab.gitpusher.core.*;
@@ -33,13 +36,28 @@ import java.util.*;
 
 import static com.ddlab.gitpusher.util.CommonConstants.*;
 
+/**
+ * The Class GitHubHandlerImpl.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitHubHandlerImpl implements IGitHandler {
+
+  /** The user account. */
   private UserAccount userAccount;
 
+  /**
+   * Instantiates a new git hub handler impl.
+   *
+   * @param userAccount the user account
+   */
   public GitHubHandlerImpl(UserAccount userAccount) {
     this.userAccount = userAccount;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getUserName()
+   */
   @Override
   public String getUserName() throws GenericGitPushException {
     GitHubRepo gitRepo = null;
@@ -57,6 +75,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return gitRepo.getLoginUser();
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getAllRepositories()
+   */
   @Override
   public String[] getAllRepositories() throws Exception {
     GitHubRepo gitRepo = null;
@@ -77,6 +98,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return repoList.toArray(new String[0]);
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#repoExists(java.lang.String)
+   */
   @Override
   public boolean repoExists(String repoName) throws GenericGitPushException {
     boolean existsFlag = false;
@@ -97,6 +121,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return existsFlag;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#clone(java.lang.String, java.io.File)
+   */
   @Override
   public void clone(String repoName, File dirPath) throws GenericGitPushException {
     String uri = GITHUB_REPO_CLONE_URI;
@@ -122,6 +149,13 @@ public class GitHubHandlerImpl implements IGitHandler {
     }
   }
 
+  /**
+   * Gets the all git hub repos.
+   *
+   * @param gitResponse the git response
+   * @return the all git hub repos
+   * @throws GenericGitPushException the generic git push exception
+   */
   private GitHubRepo getAllGitHubRepos(GitResponse gitResponse) throws GenericGitPushException {
     GitHubRepo gitRepo = null;
     if (gitResponse.getStatusCode().equals("200")) {
@@ -133,6 +167,13 @@ public class GitHubHandlerImpl implements IGitHandler {
     return gitRepo;
   }
 
+  /**
+   * Gets the git hub user.
+   *
+   * @param gitResponse the git response
+   * @return the git hub user
+   * @throws GenericGitPushException the generic git push exception
+   */
   private GitHubRepo getGitHubUser(GitResponse gitResponse) throws GenericGitPushException {
     GitHubRepo gitRepo = null;
     if (gitResponse.getStatusCode().equals("200")) {
@@ -144,6 +185,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return gitRepo;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getUrlFromLocalRepsitory(java.io.File)
+   */
   @Override
   public String getUrlFromLocalRepsitory(File gitDirPath) throws GenericGitPushException {
     String existingRepoUrl = null;
@@ -159,6 +203,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return existingRepoUrl;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#isGitDirAvailable(java.io.File)
+   */
   @Override
   public boolean isGitDirAvailable(File gitDirPath) {
     boolean isAvailable = false;
@@ -173,6 +220,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return isAvailable;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#update(java.io.File, java.lang.String)
+   */
   @Override
   public void update(File cloneDirPath, String message) throws GenericGitPushException {
     Git git = null;
@@ -206,11 +256,6 @@ public class GitHubHandlerImpl implements IGitHandler {
       PushResult pushResult = resultIterable.iterator().next();
       for (final RemoteRefUpdate rru : pushResult.getRemoteUpdates()) {
         RemoteRefUpdate.Status status = rru.getStatus();
-        //        if (status != RemoteRefUpdate.Status.OK && status !=
-        // RemoteRefUpdate.Status.UP_TO_DATE) {
-        //          // Do something
-        //          System.out.println("Something is wrong ....");
-        //        }
         statusSet.add(status);
       }
       if (statusSet.contains(RemoteRefUpdate.Status.OK)) {
@@ -227,18 +272,24 @@ public class GitHubHandlerImpl implements IGitHandler {
     }
   }
 
+  /**
+   * Revert changes.
+   *
+   * @param git the git
+   * @param revisionCommit the revision commit
+   */
   private void revertChanges(Git git, RevCommit revisionCommit) {
     System.out.println("Going to revert the changes");
     try {
       git.revert().call();
-      //      git.revert().include(revisionCommit).call();
-      //      git.reset().setMode(ResetCommand.ResetType.HARD).call();
-
     } catch (GitAPIException e) {
       e.printStackTrace();
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#createHostedRepo(java.lang.String)
+   */
   @Override
   public void createHostedRepo(String repoName) throws Exception {
     String jsonRepo = new HostedRepo(repoName).toJson();
@@ -255,6 +306,7 @@ public class GitHubHandlerImpl implements IGitHandler {
         throw new GenericGitPushException(GENERIC_LOGIN_ERR_MSG);
       IErrorResponseParser<String, String> errorParser = new RepoCreateErrorResponseParser();
       IResponseParser<String, GitHubRepo> responseParser = new GitHubResponseParserImpl();
+      @SuppressWarnings("unused")
       GitHubRepo gitRepo =
           responseParser.getNewlyCreatedHostedRepo(gitResponse.getResponseText(), errorParser);
     } catch (GenericGitPushException e) {
@@ -262,6 +314,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#getGists()
+   */
   @Override
   public String[] getGists() throws Exception {
     String[] gists = null;
@@ -287,6 +342,9 @@ public class GitHubHandlerImpl implements IGitHandler {
     return gists;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitHandler#createGist(java.io.File, java.lang.String)
+   */
   @Override
   public void createGist(File file, String description) throws Exception {
     String uri = GIT_API_URI + GITHUB_CREATE_GIST_API;
@@ -325,22 +383,49 @@ public class GitHubHandlerImpl implements IGitHandler {
     }
   }
 
+  /**
+   * The Class HostedRepo.
+   *
+   * @author Debadatta Mishra
+   */
   private static class HostedRepo {
+
+    /** The name. */
     @JsonProperty("name")
     private String name;
 
+    /**
+     * Instantiates a new hosted repo.
+     *
+     * @param name the name
+     */
     public HostedRepo(String name) {
       this.name = name;
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
       return name;
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the new name
+     */
     public void setName(String name) {
       this.name = name;
     }
 
+    /**
+     * To json.
+     *
+     * @return the string
+     */
     public String toJson() {
       ObjectMapper mapper = new ObjectMapper();
       String toJson = null;
@@ -352,37 +437,4 @@ public class GitHubHandlerImpl implements IGitHandler {
       return toJson;
     }
   }
-
-  //  @Override
-  //  public String[] getAllRepositories() throws GenericGitPushException {
-  //    String[] availableRespos = null;
-  //    String uri = GIT_API_URI + REPO_API;
-  //    HttpGet httpGet = new HttpGet(uri);
-  //    String encodedUser =
-  //        HTTPUtil.getEncodedUser(userAccount.getUserName(), userAccount.getPassword());
-  //    httpGet.setHeader("Authorization", "Basic " + encodedUser);
-  //
-  //    try {
-  //      GitResponse gitResponse = HTTPUtil.getHttpGetOrPostResponse(httpGet);
-  //      availableRespos = getAllGitHubRepos(gitResponse);
-  //    } catch (GenericGitPushException e) {
-  //      throw e;
-  //    }
-  //    return availableRespos;
-  //  }
-
-  //  private String[] getAllGitHubRepos(GitResponse gitResponse) throws GenericGitPushException {
-  //    String[] availableRespos = null;
-  //    if (gitResponse.getStatusCode().equals("200")) {
-  //      IResponseProcessor responseProcessor = new GitHubResponseProcessor();
-  //      try {
-  //        availableRespos = responseProcessor.processForAllRepos(gitResponse.getResponseText());
-  //      } catch (Exception e) {
-  //        throw new GenericGitPushException("Unable to parse the response coming from GitHub...");
-  //      }
-  //    } else if (gitResponse.getStatusCode().equals("401")) {
-  //      throw new GenericGitPushException("Bad credentials, check the credentials ...");
-  //    }
-  //    return availableRespos;
-  //  }
 }

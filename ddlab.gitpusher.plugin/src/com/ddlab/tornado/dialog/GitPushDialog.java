@@ -1,20 +1,8 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.tornado.dialog;
 
-// import static com.ddlab.tornado.common.CommonConstants.ACT_TYPE_DECORATOR_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.ACT_TYPE_LBL_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.BOLD_FONT;
-// import static com.ddlab.tornado.common.CommonConstants.DLG_SHELL_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.DLG_TITLE_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.GIT_ACCOUNTS;
-// import static com.ddlab.tornado.common.CommonConstants.PLAIN_TXT_FONT;
-// import static com.ddlab.tornado.common.CommonConstants.PWD_DECORATOE_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.PWD_LBL_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.REPO_BTN_TOOL_TIP_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.REPO_COMBO_DECORATOR_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.REPO_BTN_TXT;
-// import static com.ddlab.tornado.common.CommonConstants.SHELL_IMG_16;
-// import static com.ddlab.tornado.common.CommonConstants.SHELL_IMG_64;
-// import static com.ddlab.tornado.common.CommonConstants.USER_NAME_DECORATOR_TXT;
 import static com.ddlab.tornado.common.CommonConstants.ACT_TYPE_DECORATOR_TXT;
 import static com.ddlab.tornado.common.CommonConstants.ACT_TYPE_LBL_TXT;
 import static com.ddlab.tornado.common.CommonConstants.BOLD_FONT;
@@ -76,21 +64,48 @@ import com.ddlab.tornado.common.CommonUtil;
 import com.ddlab.tornado.common.ImageUtil;
 import com.ddlab.tornado.threads.ReposLoaderThread;
 
+/**
+ * The Class GitPushDialog.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitPushDialog extends TitleAreaDialog {
 
+  /** The git act combo. */
   private Combo gitActCombo = null;
+  
+  /** The user name text. */
   private Text userNameText = null;
+  
+  /** The password text. */
   private Text passwordText = null;
+  
+  /** The show repo btn. */
   private Button showRepoBtn = null;
+  
+  /** The my repo combo. */
   private Combo myRepoCombo = null;
+  
+  /** The read me txt. */
   private Text readMeTxt = null;
+  
+  /** The selected file. */
   private File selectedFile;
 
+  /**
+   * Instantiates a new git push dialog.
+   *
+   * @param parentShell the parent shell
+   * @param selectedFile the selected file
+   */
   public GitPushDialog(Shell parentShell, File selectedFile) {
     super(parentShell);
     this.selectedFile = selectedFile;
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#create()
+   */
   @Override
   public void create() {
     super.create();
@@ -100,6 +115,9 @@ public class GitPushDialog extends TitleAreaDialog {
     setTitleImage(ImageUtil.getImage(SHELL_IMG_64));
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+   */
   @Override
   protected Control createDialogArea(Composite parent) {
     Composite dialogComposite = (Composite) super.createDialogArea(parent);
@@ -117,6 +135,11 @@ public class GitPushDialog extends TitleAreaDialog {
     return dialogComposite;
   }
 
+  /**
+   * Creates the git account combo.
+   *
+   * @param container the container
+   */
   private void createGitAccountCombo(Composite container) {
     Label gitActLabel = new Label(container, SWT.NONE);
     gitActLabel.setText(ACT_TYPE_LBL_TXT);
@@ -131,6 +154,11 @@ public class GitPushDialog extends TitleAreaDialog {
     CommonUtil.setProposalDecorator(gitActCombo, ACT_TYPE_DECORATOR_TXT);
   }
 
+  /**
+   * Creates the user name.
+   *
+   * @param container the container
+   */
   private void createUserName(Composite container) {
     Label userNameLabel = new Label(container, SWT.NONE);
     userNameLabel.setText(USER_NAME_TEXT);
@@ -145,6 +173,11 @@ public class GitPushDialog extends TitleAreaDialog {
     CommonUtil.setLayoutData(userNameText);
   }
 
+  /**
+   * Creates the password.
+   *
+   * @param container the container
+   */
   private void createPassword(Composite container) {
     Label passwordLabel = new Label(container, SWT.NONE);
     passwordLabel.setText(PWD_LBL_TXT);
@@ -157,6 +190,11 @@ public class GitPushDialog extends TitleAreaDialog {
     CommonUtil.setLayoutData(passwordText);
   }
 
+  /**
+   * Creates the show repo.
+   *
+   * @param container the container
+   */
   private void createShowRepo(Composite container) {
     showRepoBtn = new Button(container, SWT.PUSH);
     showRepoBtn.setText(REPO_BTN_TXT);
@@ -171,6 +209,11 @@ public class GitPushDialog extends TitleAreaDialog {
     addRepoBtnListener();
   }
 
+  /**
+   * Creates the for read me.
+   *
+   * @param container the container
+   */
   private void createForReadMe(Composite container) {
     Label readMeLbl = new Label(container, SWT.NONE);
     readMeLbl.setText(READ_ME_INFO_TXT);
@@ -191,6 +234,9 @@ public class GitPushDialog extends TitleAreaDialog {
     CommonUtil.setRightSideControlDecorator(readMeLbl, READ_ME_DECO_TXT);
   }
 
+  /**
+   * Adds the repo btn listener.
+   */
   private void addRepoBtnListener() {
     showRepoBtn.addSelectionListener(
         new SelectionAdapter() {
@@ -201,6 +247,9 @@ public class GitPushDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Adds the user name text listener.
+   */
   private void addUserNameTextListener() {
     userNameText.addKeyListener(
         new KeyAdapter() {
@@ -211,6 +260,9 @@ public class GitPushDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Adds the pwd text listener.
+   */
   private void addPwdTextListener() {
     passwordText.addKeyListener(
         new KeyAdapter() {
@@ -221,6 +273,9 @@ public class GitPushDialog extends TitleAreaDialog {
         });
   }
 
+  /**
+   * Populate repo combo.
+   */
   private void populateRepoCombo() {
     // get the list of repositories;
     if (!isAccountValid()) return;
@@ -231,15 +286,6 @@ public class GitPushDialog extends TitleAreaDialog {
     List<String> reposList = new ArrayList<>();
 
     IRunnableWithProgress op = new ReposLoaderThread(gitPusher, reposList);
-
-    //    IRunnableWithProgress op =
-    //        new RepoLoaderThread(userNameText.getText(), passwordText.getText(), myRepoCombo,
-    // repoList);
-
-    //    if (reposList.size() == 0)
-    //      setMessage("There are no Snippet/s available, create one.",
-    // IMessageProvider.INFORMATION);
-    //    else setMessage("");
     try {
       new ProgressMonitorDialog(new Shell()).run(true, true, op);
       if (reposList.size() != 0) {
@@ -256,59 +302,31 @@ public class GitPushDialog extends TitleAreaDialog {
       ErrorDialog.openError(new Shell(), "Error", e.getMessage(), status);
     }
 
-    //
-    //
-    //    String[] repos;
-    //    try {
-    //      repos = GitHubUtil.getAllRepositories(userNameText.getText(), passwordText.getText());
-    //      myRepoCombo.setItems(repos);
-    //      // if items are not empty
-    //      if (repos != null && repos.length != 0) myRepoCombo.select(0);
-    //    } catch (Exception e) {
-    //      Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getLocalizedMessage(),
-    // e);
-    //
-    //      //    	String PID = Activator.PLUGIN_ID;
-    //      //    	MultiStatus status = new MultiStatus(PID, 1, "Error 1", null);
-    //      //    	status.add(new Status(IStatus.ERROR, PID, 1, "Error 2", null));
-    //      //    	status.add(new Status(IStatus.ERROR, PID, 1, "Error 3", null));
-    //      //    	status.add(new Status(IStatus.ERROR, PID, 1, "Error 4", null));
-    //
-    //      ErrorDialog.openError(new Shell(), "Error", e.getMessage(), status);
-    //      System.out.println("=========>" + e.getMessage());
-    //      e.printStackTrace();
-    //    }
-    //
-    //
-
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+   */
   @Override
   protected void okPressed() {
     if (isAccountValid()) {
-      // Perform the operation
-      //    	 WorkbenchPlugin.getDefault().getPreferenceStore().setValue("RUN_IN_BACKGROUND",
-      // false);
-      //    	runInBackgroundProgressService();
-
-      //    	show13();
-
-      //    	MessageDialog.openInformation(new Shell(), "Done", "All Done Paa");
-
-      //      generateGitIgnoreFile();
-      //      generateReadMeFile();
       //      close();
-
       String selectedGitType = GIT_ACCOUNTS[gitActCombo.getSelectionIndex()];
       UserAccount userAccount = new UserAccount(userNameText.getText(), passwordText.getText());
       IGitPusher gitPusher = GitType.fromString(selectedGitType).getGitPusher(userAccount);
       String readMeText = (readMeTxt.getText()) == null ? "" : readMeTxt.getText();
-
       executeInBackground(gitPusher, readMeText);
+      close();
     }
     //    super.okPressed();
   }
 
+  /**
+   * Execute in background.
+   *
+   * @param gitPusher the git pusher
+   * @param readMetxt the read metxt
+   */
   private void executeInBackground(IGitPusher gitPusher, String readMetxt) {
     String gitWebType = GIT_ACCOUNTS[gitActCombo.getSelectionIndex()];
     String actualGit = gitWebType.equalsIgnoreCase("gitHub") ? "GitHub" : "BitBucket";
@@ -363,16 +381,27 @@ public class GitPushDialog extends TitleAreaDialog {
     PlatformUI.getWorkbench().getProgressService().showInDialog(getShell(), job);
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
+   */
   @Override
   protected void cancelPressed() {
     super.cancelPressed();
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.Dialog#isResizable()
+   */
   @Override
   protected boolean isResizable() {
     return true;
   }
 
+  /**
+   * Checks if is account valid.
+   *
+   * @return true, if is account valid
+   */
   private boolean isAccountValid() {
     boolean isValidFlag = false;
     if (userNameText.getText().isEmpty()) setMessage(UNAME_NOT_EMPTY_TXT, IMessageProvider.ERROR);
@@ -385,6 +414,9 @@ public class GitPushDialog extends TitleAreaDialog {
     return isValidFlag;
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.dialogs.TrayDialog#isHelpAvailable()
+   */
   @Override
   public boolean isHelpAvailable() {
     return false;

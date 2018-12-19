@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.bitbucket.core;
 
 import com.ddlab.gitpusher.core.IErrorResponseParser;
@@ -11,7 +14,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Class BitBucketReponseParser.
+ *
+ * @author Debadatta Mishra
+ */
 public class BitBucketReponseParser implements IResponseParser<String, String[]> {
+
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getAllRepos(java.lang.Object)
+   */
   @Override
   public String[] getAllRepos(String jsonResponse) throws GenericGitPushException {
     List<String> repoList = new ArrayList<>();
@@ -30,6 +42,9 @@ public class BitBucketReponseParser implements IResponseParser<String, String[]>
     return repoList.toArray(new String[0]);
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getUser(java.lang.Object)
+   */
   @Override
   public String[] getUser(String jsonResponse) throws GenericGitPushException {
     String userName = null;
@@ -44,6 +59,9 @@ public class BitBucketReponseParser implements IResponseParser<String, String[]>
     return new String[] {userName};
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getNewlyCreatedHostedRepo(java.lang.Object, com.ddlab.gitpusher.core.IErrorResponseParser)
+   */
   @Override
   @Deprecated
   public String[] getNewlyCreatedHostedRepo(
@@ -52,6 +70,9 @@ public class BitBucketReponseParser implements IResponseParser<String, String[]>
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IResponseParser#getAllGistSnippets(java.lang.Object)
+   */
   @Override
   public String[] getAllGistSnippets(String jsonResponse) throws GenericGitPushException {
     List<String> gistSnippetList = new ArrayList<>();

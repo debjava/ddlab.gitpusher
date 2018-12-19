@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.github.core;
 
 import com.ddlab.gitpusher.core.IErrorResponseParser;
@@ -8,7 +11,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Iterator;
 
+/**
+ * The Class RepoCreateErrorResponseParser.
+ *
+ * @author Debadatta Mishra
+ */
 public class RepoCreateErrorResponseParser implements IErrorResponseParser<String, String> {
+
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IErrorResponseParser#parseError(java.lang.Object)
+   */
   @Override
   public String parseError(String jsonText) throws GenericGitPushException {
     String errorMessage = null;
@@ -21,6 +33,13 @@ public class RepoCreateErrorResponseParser implements IErrorResponseParser<Strin
     return errorMessage;
   }
 
+  /**
+   * Gets the error message.
+   *
+   * @param jsonText the json text
+   * @return the error message
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   private String getErrorMessage(String jsonText) throws IOException {
     StringBuilder builder = new StringBuilder("");
     ObjectMapper mapper = new ObjectMapper();

@@ -1,3 +1,6 @@
+/*
+ * Copyright 2018 Tornado Project from DDLAB Inc. or its subsidiaries. All Rights Reserved.
+ */
 package com.ddlab.gitpusher.github.core;
 
 import com.ddlab.gitpusher.core.IGitHandler;
@@ -8,17 +11,36 @@ import com.ddlab.gitpusher.exception.GenericGitPushException;
 
 import java.io.File;
 
+/**
+ * The Class GitHubPusherImpl.
+ *
+ * @author Debadatta Mishra
+ */
 public class GitHubPusherImpl implements IGitPusher {
+
+  /** The git hub handler. */
   private IGitHandler gitHubHandler;
+
+  /** The no git handler. */
   private NoGitHandler noGitHandler;
+
+  /** The yes git handler. */
   private YesGitHandler yesGitHandler;
 
+  /**
+   * Instantiates a new git hub pusher impl.
+   *
+   * @param gitHubHandler the git hub handler
+   */
   public GitHubPusherImpl(IGitHandler gitHubHandler) {
     this.gitHubHandler = gitHubHandler;
     noGitHandler = new NoGitHubHandlerImpl();
     yesGitHandler = new YesGitHubHandlerImpl();
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitPusher#pushCodeDirectly(java.io.File)
+   */
   @Override
   public void pushCodeDirectly(File projectDir) throws GenericGitPushException {
     try {
@@ -29,11 +51,13 @@ public class GitHubPusherImpl implements IGitPusher {
         noGitHandler.handle(projectDir, gitHubHandler);
       }
     } catch (Exception e) {
-    	throw new GenericGitPushException(e.getMessage());
-//      throw new GenericGitPushException("Exception while pushing code to GIT", e);
+      throw new GenericGitPushException(e.getMessage());
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitPusher#pushSnippetDirectly(java.io.File, java.lang.String)
+   */
   public void pushSnippetDirectly(File file, String description) throws GenericGitPushException {
     try {
       gitHubHandler.createGist(file, description);
@@ -42,6 +66,9 @@ public class GitHubPusherImpl implements IGitPusher {
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitPusher#getExistingRepos()
+   */
   @Override
   public String[] getExistingRepos() throws GenericGitPushException {
     String[] existingRepos = null;
@@ -54,6 +81,9 @@ public class GitHubPusherImpl implements IGitPusher {
     return existingRepos;
   }
 
+  /* (non-Javadoc)
+   * @see com.ddlab.gitpusher.core.IGitPusher#getExistingSnippets()
+   */
   @Override
   public String[] getExistingSnippets() throws GenericGitPushException {
     String[] existingSnippets = null;
