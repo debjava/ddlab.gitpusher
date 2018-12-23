@@ -66,6 +66,8 @@ public class CommonConstants {
 
   /** The Constant REPO_BTN_TOOL_TIP_TXT. */
   public static final String REPO_BTN_TOOL_TIP_TXT = "Click to see the list of repositories";
+  
+  public static final String GIST_BTN_TOOL_TIP_TXT = "Click to see the list of code snippets";
 
   /** The Constant REPO_COMBO_DECORATOR_TXT. */
   public static final String REPO_COMBO_DECORATOR_TXT = "Displays the list of repositories";

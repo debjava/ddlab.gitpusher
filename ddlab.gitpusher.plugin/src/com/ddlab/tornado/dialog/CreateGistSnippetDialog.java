@@ -7,6 +7,7 @@ import static com.ddlab.tornado.common.CommonConstants.ACT_TYPE_LBL_TXT;
 import static com.ddlab.tornado.common.CommonConstants.BOLD_FONT;
 import static com.ddlab.tornado.common.CommonConstants.DLG_SHELL_TXT;
 import static com.ddlab.tornado.common.CommonConstants.DLG_TITLE_TXT;
+import static com.ddlab.tornado.common.CommonConstants.GIST_BTN_TOOL_TIP_TXT;
 import static com.ddlab.tornado.common.CommonConstants.GIST_BTN_TXT;
 import static com.ddlab.tornado.common.CommonConstants.GIST_COMBO_DECORATOR_TXT;
 import static com.ddlab.tornado.common.CommonConstants.GIST_LBL_INFO_TXT;
@@ -17,7 +18,6 @@ import static com.ddlab.tornado.common.CommonConstants.PLAIN_TXT_FONT;
 import static com.ddlab.tornado.common.CommonConstants.PWD_DECORATOE_TXT;
 import static com.ddlab.tornado.common.CommonConstants.PWD_LBL_TXT;
 import static com.ddlab.tornado.common.CommonConstants.PWD_NOT_EMPTY_TXT;
-import static com.ddlab.tornado.common.CommonConstants.REPO_BTN_TOOL_TIP_TXT;
 import static com.ddlab.tornado.common.CommonConstants.SHELL_IMG_16;
 import static com.ddlab.tornado.common.CommonConstants.SHELL_IMG_64;
 import static com.ddlab.tornado.common.CommonConstants.UNAME_NOT_EMPTY_TXT;
@@ -199,7 +199,7 @@ public class CreateGistSnippetDialog extends TitleAreaDialog {
     showGistBtn.setText(GIST_BTN_TXT);
     showGistBtn.setFont(BOLD_FONT);
     showGistBtn.setLayoutData(new GridData(GridData.END, SWT.CENTER, false, false));
-    showGistBtn.setToolTipText(REPO_BTN_TOOL_TIP_TXT);
+    showGistBtn.setToolTipText(GIST_BTN_TOOL_TIP_TXT);
 
     myGistCombo = new Combo(container, SWT.READ_ONLY);
     myGistCombo.setFont(PLAIN_TXT_FONT);
