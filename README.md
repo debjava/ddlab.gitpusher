@@ -1,4 +1,6 @@
-![DDLAB](./images/A22.png) Eclipse Plugin for Code Push in GitHub and Bitbucket
+![DDLAB](./images/A22.png) 
+
+Eclipse Plugin for Code Push in GitHub and Bitbucket
 ==========================================================================================
 
 Introduction
