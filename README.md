@@ -74,7 +74,7 @@ Download the zip file and install as in Help -> Install New Software -> Add... -
 
 See the screenshots give below to know its usage.
 
-* **To create a project in GitHub/Bicket**
+* **To create a project in GitHub/Bitbucket**
 
 ![DDLAB](./images/IMG1.png)
 
