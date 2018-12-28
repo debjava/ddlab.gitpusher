@@ -7,11 +7,11 @@
             name="Gitpusher Category"
             id="gitpusher1.commands.category"></category>
         <command
-            name="Push to Git"
+            name="Push to GitHub/Bitbucket"
             categoryId="gitpusher1.commands.category"
             id="gitpusher1.commands.gitPushCmd"></command>
         <command
-            name="Create a Gist"
+            name="Share code in GitHub/Bitbucket"
             categoryId="gitpusher1.commands.category"
             id="gitpusher1.commands.gistCreateCmd"></command>
     </extension>

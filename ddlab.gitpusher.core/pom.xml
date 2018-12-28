@@ -71,13 +71,7 @@
                             <directory>${plugin.lib.dir}</directory>
                             <includes>
                                 <include>${project.artifactId}-${project.version}.jar</include>
-                                <!-- <include>**/*.jar</include> -->
-                                <!-- <include>**/*.log</include> -->
                             </includes>
-                            <!-- <excludes>
-                             <exclude>**/important.log</exclude>
-                             <exclude>**/another-important.log</exclude>
-                            </excludes> -->
                             <followSymlinks>false</followSymlinks>
                         </fileset>
                     </filesets>

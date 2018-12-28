@@ -26,10 +26,6 @@ nvt-validations/out
 *.classpath
 *.project
 *.settings
-nvt-commons/bin
-nvt-resources/bin
-nvt-utils/bin
-nvt-validations/bin
 /bin
 .metadata/
 bin/

@@ -14,6 +14,8 @@
  <properties>
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   <tycho.version>1.2.0</tycho.version>
+  <download.dir>${project.basedir}/download</download.dir>
+  <plugin.dir>${project.basedir}/plugin</plugin.dir>
  </properties>
 
  <contributors>
@@ -51,11 +53,74 @@
      <target>1.8</target>
     </configuration>
    </plugin>
+   <plugin>
+    <artifactId>maven-clean-plugin</artifactId>
+    <version>3.1.0</version>
+    <configuration>
+     <filesets>
+      <fileset>
+       <directory>${download.dir}</directory>
+       <includes>
+        <include>**/*</include>
+       </includes>
+       <followSymlinks>false</followSymlinks>
+      </fileset>
+      <fileset>
+       <directory>${plugin.dir}</directory>
+       <includes>
+        <include>**/*</include>
+       </includes>
+       <followSymlinks>false</followSymlinks>
+      </fileset>
+     </filesets>
+    </configuration>
+   </plugin>
+   <plugin>
+    <artifactId>maven-resources-plugin</artifactId>
+    <version>3.1.0</version>
+    <executions>
+     <execution>
+      <id>copy-plugin-zip</id>
+      <phase>package</phase>
+      <goals>
+       <goal>copy-resources</goal>
+      </goals>
+      <configuration>
+       <outputDirectory>${download.dir}</outputDirectory>
+       <resources>
+        <resource>
+         <directory>${project.basedir}/ddlab.gitpusher.updatesite/target</directory>
+         <includes>
+          <include>*.zip</include>
+         </includes>
+        </resource>
+       </resources>
+      </configuration>
+     </execution>
+     <execution>
+      <id>copy-repository-directory</id>
+      <phase>package</phase>
+      <goals>
+       <goal>copy-resources</goal>
+      </goals>
+      <configuration>
+       <outputDirectory>${plugin.dir}</outputDirectory>
+       <resources>
+        <resource>
+         <directory>${project.basedir}/ddlab.gitpusher.updatesite/target/repository</directory>
+         <includes>
+          <include>**/*.*</include>
+         </includes>
+        </resource>
+       </resources>
+      </configuration>
+     </execution>
+    </executions>
+   </plugin>
   </plugins>
  </build>
 
  <modules>
-
   <module>ddlab.generator</module>
   <module>ddlab.gitpusher.core</module>
 
